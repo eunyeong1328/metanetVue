@@ -1,12 +1,13 @@
 <template>
-  <div class = "name">
+  <div v-bind:class = "nameClass">
     {{name}}
     </div>
     <input v-bind:type="type" v-bind:value="name">
     <button  
       class="btn btn-primary"
       v-on:click="updateName"
-      >Click
+      >
+      Click
     </button>
 </template>
 
@@ -16,10 +17,12 @@ export default{
   setup(){
     const name = ref('kosa');
     const type = ref("number");
+    const nameClass = ref('');
     
     const updateName = () => {
       name.value = 'Metanet';
       type.value = 'text';
+      nameClass.value = 'name';
       console.log(name.value);
     }
 
@@ -27,6 +30,7 @@ export default{
       name,
       updateName,
       type,
+      nameClass
     }
   }
 
