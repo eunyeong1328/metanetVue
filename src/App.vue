@@ -1,25 +1,27 @@
 <template>
-<div v-if="toggle">true</div>
-<div v-else>false </div>
-<button @click="onToggle">Toggle</button>
 
   <h2>To-Do</h2>
-  <form class="d-flex" 
-  @submit.prevent="onSubmit">
-    <div class = "flex-grow-1 mr-2">
-      <input
-        class = "form-control"
-        type = "text"
-        v-model="todo"
-        placeholder="Type new to-do"
-        >
+  <form class="d-flex"  @submit.prevent="onSubmit">
+    <div>
+      <div class = "flex-grow-1 mr-2">
+        <input
+          class = "form-control"
+          type = "text"
+          v-model="todo"
+          placeholder="Type new to-do"
+          >
     </div>
     <div>
       <button
         class = "btn btn-primary"
-        type="submit">
+        type="submit"
+        >
         Add
       </button>
+    </div>
+    </div>
+    <div v-if="hasError" style="color: red">
+      This is cannot be empty
     </div>
   </form>
 
@@ -46,26 +48,23 @@ export default{
       {id:2, subject: 'vue work'}
     ]);
 
-    const toggle = ref(false);
-
-    const onSubmit = (e) => {
-      e.preventDefault();
-      todos.value.push({
-        id: Date.now(),
-        subject: todo.value
-      }); //객체 형태로 생성
-    }
-
-    const onToggle = () =>{
-      toggle.value = !toggle.value;
+    const hasError = ref(false);
+    const onSubmit = () => {
+        if(todo.value == ''){
+          hasError.value = true;
+        }else{
+          todos.value.push({
+          id: Date.now(),
+          subject: todo.value
+        }); //객체 형태로 생성
+        hasError.value = false;
+      }  
     }
 
     return{
       todo,
       onSubmit,
       todos,
-      toggle,
-      onToggle
     }
   }
 }
