@@ -1,12 +1,16 @@
 <template>
-  <div>Kosa</div>
+  <div>{{name }}</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+export default{
+  setup(){
+    const name = "Metanet!";
 
-export default {
-  name: 'App',
+    return{
+      name,
+    }
+  }
 }
 </script>
 
