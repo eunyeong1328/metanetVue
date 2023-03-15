@@ -1,20 +1,23 @@
 <template>
   <div class = "name">
-    {{greeting()}}
+    {{greet}}
     </div>
 </template>
 
 <script>
 export default{
   setup(){
-    const name = "Metanet!";
-    const greeting = () =>{
-      return "Hello MetaNet!";
+    const name = "Kosa!";
+    const greeting = (name) =>{
+      return 'Hello' + name;
     }
+
+    const greet = greeting(name);
 
     return{
       name,
       greeting,
+      greet,
     }
   }
 }
