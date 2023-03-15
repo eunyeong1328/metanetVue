@@ -1,5 +1,8 @@
 <template>
-<div class ="container">
+<div v-show="toggle">true</div>
+<div v-show="!toggle">false </div>
+<button @click="onToggle">Toggle</button>
+
   <h2>To-Do</h2>
   <form class="d-flex" 
   @submit.prevent="onSubmit">
@@ -26,15 +29,11 @@
     :key="todo.id"
    class="card mt-2">
     <div class = "card-body p-2">
-      {{ todos[0].subject }}
+      {{ todo.subject }}
     </div>
   </div>
-  <div class="card mt-2">
-    <div class = "card-body p-2">
-      {{ todos[1].subject }}
-    </div>
-  </div>
-</div>
+ 
+
 </template>
 
 <script>
@@ -47,6 +46,8 @@ export default{
       {id:2, subject: 'vue work'}
     ]);
 
+    const toggle = ref(false);
+
     const onSubmit = (e) => {
       e.preventDefault();
       todos.value.push({
@@ -55,10 +56,16 @@ export default{
       }); //객체 형태로 생성
     }
 
+    const onToggle = () =>{
+      toggle.value = !toggle.value;
+    }
+
     return{
       todo,
       onSubmit,
       todos,
+      toggle,
+      onToggle
     }
   }
 }
