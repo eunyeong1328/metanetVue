@@ -10,13 +10,15 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { reactive } from 'vue';
 export default{
   setup(){
-    let name = ref("Kosa!");
+    const name = reactive({
+      id:1
+    });
     
     const updateName = () => {
-      name = "metanet"
+      name.id = "metanet"
       console.log(name);
     }
 
