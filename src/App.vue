@@ -2,6 +2,7 @@
   <div class = "name">
     {{name}}
     </div>
+    <input type = "text" v-bind:value="name">
     <button  
       class="btn btn-primary"
       v-on:click="updateName"
@@ -16,11 +17,10 @@ export default{
     const name = ref('kosa');
     
     const updateName = () => {
-      name.value = 'ref';
+      name.value = 'Metanet';
       console.log(name.value);
     }
 
-    
     return{
       name,
       updateName,
