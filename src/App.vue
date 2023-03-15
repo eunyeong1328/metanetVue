@@ -1,36 +1,49 @@
 <template>
-<div>
-    <input 
-      :type="text" 
-      v-model="name"
-      @input="update">
-
-    <button  
-      class="btn btn-primary"
-      @click="onSubmit"
-    >
-     Click
-   </button>
+<div class ="container">
+  <h2>To-Do</h2>
+  <form class="d-flex" 
+  @submit.prevent="onSubmit">
+    <div class = "flex-grow-1 mr-2">
+      <input
+        class = "form-control"
+        type = "text"
+        v-model="todo"
+        placeholder="Type new to-do"
+        >
+    </div>
+    <div>
+      <button
+        class = "btn btn-primary"
+        type="submit">
+        Add
+      </button>
+    </div>
+  </form>
+  {{todos}}
 </div>
-  
 </template>
 
 <script>
 import { ref } from 'vue';
 export default{
   setup(){
-    const name = ref('kosa');
-    
-    const onSubmit = () => {
-      console.log(name);
+    const todo = ref('');
+    const todos = ref([]);
+
+    const onSubmit = (e) => {
+      e.preventDefault();
+      todos.value.push({
+        id: Date.now(),
+        subject: todo.value
+      }); //객체 형태로 생성
     }
 
     return{
-      name,
+      todo,
       onSubmit,
+      todos,
     }
   }
-
 }
 </script>
 
