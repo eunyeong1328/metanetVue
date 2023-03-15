@@ -1,25 +1,32 @@
 <template>
   <div class = "name">
-    {{greet}}
+    {{name}}
     </div>
+    <button  
+      class="btn btn-primary"
+      v-on:click="updateName"
+      >Click
+    </button>
 </template>
 
 <script>
+import { ref } from 'vue';
 export default{
   setup(){
-    const name = "Kosa!";
-    const greeting = (name) =>{
-      return 'Hello' + name;
+    let name = ref("Kosa!");
+    
+    const updateName = () => {
+      name = "metanet"
+      console.log(name);
     }
 
-    const greet = greeting(name);
-
+    
     return{
       name,
-      greeting,
-      greet,
+      updateName,
     }
   }
+
 }
 </script>
 
