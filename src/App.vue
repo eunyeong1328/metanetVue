@@ -1,14 +1,17 @@
 <template>
-  <div v-bind:class = "nameClass">
-    {{name}}
-    </div>
-    <input v-bind:type="type" v-bind:value="name">
+<div>
+    <input :type="text" 
+      :value="name"
+      @input="updateName">
+
     <button  
       class="btn btn-primary"
-      v-on:click="updateName"
-      >
-      Click
-    </button>
+      @click="onSubmit"
+    >
+     Click
+   </button>
+</div>
+  
 </template>
 
 <script>
@@ -16,21 +19,20 @@ import { ref } from 'vue';
 export default{
   setup(){
     const name = ref('kosa');
-    const type = ref("number");
-    const nameClass = ref('');
     
-    const updateName = () => {
-      name.value = 'Metanet';
-      type.value = 'text';
-      nameClass.value = 'name';
-      console.log(name.value);
+    const onSubmit = () => {
+      console.log(name);
+    }
+
+    const updateName = (e) => {
+      console.log(e.target.value);
+      name.value = e.target.value;
     }
 
     return{
       name,
+      onSubmit,
       updateName,
-      type,
-      nameClass
     }
   }
 
