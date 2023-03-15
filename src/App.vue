@@ -1,6 +1,6 @@
 <template>
-<div v-show="toggle">true</div>
-<div v-show="!toggle">false </div>
+<div v-if="toggle">true</div>
+<div v-else>false </div>
 <button @click="onToggle">Toggle</button>
 
   <h2>To-Do</h2>
