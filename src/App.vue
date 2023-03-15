@@ -19,7 +19,21 @@
       </button>
     </div>
   </form>
+
   {{todos}}
+  <div
+    v-for="todo in todos"
+    :key="todo.id"
+   class="card mt-2">
+    <div class = "card-body p-2">
+      {{ todos[0].subject }}
+    </div>
+  </div>
+  <div class="card mt-2">
+    <div class = "card-body p-2">
+      {{ todos[1].subject }}
+    </div>
+  </div>
 </div>
 </template>
 
@@ -28,7 +42,10 @@ import { ref } from 'vue';
 export default{
   setup(){
     const todo = ref('');
-    const todos = ref([]);
+    const todos = ref([
+      {id:1, subject: 'vue study'},
+      {id:2, subject: 'vue work'}
+    ]);
 
     const onSubmit = (e) => {
       e.preventDefault();
