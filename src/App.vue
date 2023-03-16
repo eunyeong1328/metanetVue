@@ -14,6 +14,20 @@
   </div>
   <!--   자식이 데이터 보내기         부모가 받을 데이터(데이터를 받을 함수)  -->
   <TodoList :todos="filterdTods" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
+  <!-- 페이징 처리 -->
+  <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li v-if = "currentPage !== 1" class="page-item">
+      <a class="page-link" href="#">Previous</a>
+    </li>
+    <li class="page-item" v-for = "page in numberOfPages" :key = "page" :class="currentPage == page ? 'active':''">
+      <a class="page-link" href="#">{{ page }}</a></li>
+    <li v-if="numberOfTodos !== currentPage" class="page-item"> <!--마지막 페이지가 현재 페이지가 아니라면?Next출력-->
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
+<!-- {{ numberOfPages }} -->
 </div> 
 </template>
 
@@ -33,6 +47,13 @@ export default{
     const todos = ref([]);
     const searchText = ref(''); //검색기능
     const error = ref('');
+    const numberOfTodos = ref(0);
+    const limit = 5;
+    const currentPage = ref(1);
+    const numberOfPages = computed(()=>{
+        return Math.ceil(numberOfTodos.value/limit);
+    });
+
     const filterdTods = computed(() => {
       if(searchText.value){
         return todos.value.filter(todo => {
@@ -59,7 +80,9 @@ export default{
 
     const getTodos = async () => {
       try{
-          const res = await axios.get(`http://localhost:3000/todos?_page=2&_limit=5`);
+          const res = await axios.get(`http://localhost:3000/todos?_page=${currentPage.value}&_limit=${limit}`);
+          numberOfTodos.value = res.headers['x-total-count'];
+         //console.log(res.headers['x-total-count']); //해당 글 갯수를 뽑아 낼 수 있다.
           todos.value = res.data;
           
       }catch(err){
@@ -112,6 +135,10 @@ export default{
       filterdTods,
       error,
       getTodos,
+      numberOfTodos,
+      limit,
+      numberOfPages,
+      currentPage,
     }
   }
 }
