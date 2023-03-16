@@ -57,11 +57,6 @@ export default{
       }
     }
 
-    const toggleTodo = (index) => {
-      todos.value[index].completed = !todos.value[index].completed;
-    }
-
-
     const getTodos = async () => {
       try{
           const res = await axios.get('http://localhost:3000/todos');
@@ -86,6 +81,26 @@ export default{
           error.value = 'Something went wrong';
         }
     }
+
+    // const toggleTodo = (index) => {
+    //   todos.value[index].completed = !todos.value[index].completed;
+    // }
+
+    const toggleTodo = async (index) =>{
+       error.value = ' ';
+        const id = todos.value[index].id;
+        try{//db에 있는 값을 삭제한다.
+          await axios.patch('http://localhost:3000/todos/' + id), {
+            completed : !todos.value[index].completed
+          };
+          todos.value[index].completed = !todos.value[index].completed;
+        }catch(err){
+          console.log(err);
+          error.value = 'Something went wrong';
+        }
+    }
+    //put :리소스의 모든 것을 업데이트 한다.
+    //patch : 리소스의 일부를 업데이트 한다.
 
     //함수를 사용하려면 반드시 return을 사용
     return{
