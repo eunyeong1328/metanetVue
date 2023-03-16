@@ -1,4 +1,7 @@
 <template>
+  <h4>count: {{ count }} </h4>
+  <h4> double count: {{ doubleCount }}</h4>
+  <button @click="count++">Add one</button>
 <div class ="container">
   <h2>To-Do</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
   <TodoSimpleForm @add-todo="addTodo"/>
@@ -12,7 +15,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref ,computed } from 'vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
 export default{
@@ -24,6 +27,12 @@ export default{
   setup(){
     // ref사용 시 .value값 선언 
     const todos = ref([]);
+
+
+    const count = ref(1);
+    const doubleCount = computed(()=>{
+      return count.value*2;
+    })
     
     const addTodo = (todo) => {
       todos.value.push(todo);
@@ -45,6 +54,8 @@ export default{
       deleteTodo,
       addTodo,
       toggleTodo,
+      count,
+      doubleCount,
     }
   }
 }
