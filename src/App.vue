@@ -1,21 +1,21 @@
 <template>
-  <h4>count: {{ count }} </h4>
-  <h4> double count: {{ doubleCount }}</h4>
-  <button @click="count++">Add one</button>
 <div class ="container">
   <h2>To-Do</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
-  <TodoSimpleForm @add-todo="addTodo"/>
-
+  <input class="form-control" type="text" v-model="searchText" placeholder="Search"/>
+<hr>
   <div v-if = "!todos.length" style = "color: rebeccapurple">
     추가된 todo가 없습니다.
   </div>
+  <div v-if="!filterdTods.length">
+    There is nothing to display
+  </div>
   <!--   자식이 데이터 보내기         부모가 받을 데이터(데이터를 받을 함수)  -->
-  <TodoList :todos="todos" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
+  <TodoList :todos="filterdTods" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
 </div> 
 </template>
 
 <script>
-import { ref ,computed } from 'vue';
+import { ref, computed } from 'vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
 export default{
@@ -27,13 +27,17 @@ export default{
   setup(){
     // ref사용 시 .value값 선언 
     const todos = ref([]);
+    const searchText = ref(''); //검색기능
+    const filterdTods = computed(() => {
+      if(searchText.value){
+        return todos.value.filter(todo => {
+          return todo.subject.includes(searchText.value);
+        });
+      }
 
+      return todos.value;
+    });
 
-    const count = ref(1);
-    const doubleCount = computed(()=>{
-      return count.value*2;
-    })
-    
     const addTodo = (todo) => {
       todos.value.push(todo);
       console.log(todo);
@@ -54,8 +58,8 @@ export default{
       deleteTodo,
       addTodo,
       toggleTodo,
-      count,
-      doubleCount,
+      searchText,
+      filterdTods,
     }
   }
 }
