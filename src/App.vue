@@ -6,8 +6,8 @@
   <div v-if = "!todos.length" style = "color: rebeccapurple">
     추가된 todo가 없습니다.
   </div>
-
-  <TodoLis :todos="todos" />
+  <!--   자식이 데이터 보내기         부모가 받을 데이터(데이터를 받을 함수)  -->
+  <TodoList :todos="todos" @toggel-todo = "toggleTodo"/>
 </div> 
 </template>
 
@@ -16,9 +16,6 @@ import { ref } from 'vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
 export default{
-//부모 -> 자식
-  props : ['todos'],
-
   components: {
     TodoSimpleForm,
     TodoList
@@ -32,9 +29,15 @@ export default{
       todos.value.splice(index,1);
     }
     
-    const addTodo = (todo) =>{
+    const addTodo = (todo) => {
       todos.value.push(todo);
       console.log(todo);
+    }
+
+    const toggleTodo = (index) => {
+      console.log(todos.value[index]);
+      todos.value[index].completed = !todos.value[index].completed;
+      console.log(todos.value[index]);
     }
 
 
@@ -43,6 +46,7 @@ export default{
       todos,
       deleteTodo,
       addTodo,
+      toggleTodo,
     }
   }
 }
