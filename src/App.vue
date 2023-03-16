@@ -19,15 +19,19 @@
     </div>
   </form>
 
-  {{todos}}
+  <!-- {{todos}} -->
   <!-- v-for를 사용할 때 반드시 :key 사용 -->
-  <div v-for="todo in todos" :key="todo.id" class="card mt-2">
-    <div class = "card-body p-2 d-flex">
+  <div v-for="(todo,index) in todos" :key="todo.id" class="card mt-2">
+    <div class = "card-body p-2 d-flex align-items-center">
       <div class ="form-check flext-grow-1">
         <input class = "form-check-input" type = "checkbox" v-model="todo.completed"> 
         <label class = "form-check-label" :class = "{todo: todo.completed}"> {{ todo.subject }} </label>
       </div>                        <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
-     
+     <div class = "align-rignt">
+      <button class ="btn btn-danger btn-sm" @click = "deleteTodo(index)">
+        Delete
+      </button>
+     </div>
     </div>
   </div>
 </div> 
@@ -56,12 +60,17 @@ export default{
           todo.value = '';
         }  
     }
+
+    const deleteTodo = (index) => {
+      todos.value.splice(index,1);
+    }
 //함수를 사용하려면 반드시 return을 사용
     return{
       todo,
       todos,
       hasError,
       onSubmit,
+      deleteTodo,
     }
   }
 }
