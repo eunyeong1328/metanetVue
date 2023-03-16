@@ -24,6 +24,7 @@ export default {
             required: true
         }
     },
+    emits: ['toggel-todo','toggel-del'],
     setup(props, context){
         const toggleTodo = (index) =>{
             context.emit('toggel-todo', index);
