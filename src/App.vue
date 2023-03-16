@@ -113,9 +113,9 @@ export default{
        error.value = ' ';
         const id = todos.value[index].id;
         try{//db에 있는 값을 삭제한다.
-          await axios.patch('http://localhost:3000/todos/' + id), {
+          await axios.patch('http://localhost:3000/todos/' + id, {
             completed : !todos.value[index].completed
-          };
+          });
           todos.value[index].completed = !todos.value[index].completed;
         }catch(err){
           console.log(err);
