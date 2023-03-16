@@ -21,7 +21,7 @@
       <a class="page-link" href="#">Previous</a>
     </li>
     <li class="page-item" v-for = "page in numberOfPages" :key = "page" :class="currentPage == page ? 'active':''">
-      <a class="page-link" href="#">{{ page }}</a></li>
+      <a class="page-link" @click="getTodos(page)">{{page}}</a></li>
     <li v-if="numberOfTodos !== currentPage" class="page-item"> <!--마지막 페이지가 현재 페이지가 아니라면?Next출력-->
       <a class="page-link" href="#">Next</a>
     </li>
@@ -78,9 +78,11 @@ export default{
       }
     }
 
-    const getTodos = async () => {
+    const getTodos = async (page = currentPage.value) => {
+      currentPage.value = page;
+      error.value = '';
       try{
-          const res = await axios.get(`http://localhost:3000/todos?_page=${currentPage.value}&_limit=${limit}`);
+          const res = await axios.get(`http://localhost:3000/todos?_page=${page}&_limit=${limit}`); //원하는 페이지만 글 갯수 출력
           numberOfTodos.value = res.headers['x-total-count'];
          //console.log(res.headers['x-total-count']); //해당 글 갯수를 뽑아 낼 수 있다.
           todos.value = res.data;
