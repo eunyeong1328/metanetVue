@@ -9,7 +9,6 @@
             <button class = "btn btn-primary" type="submit"> Add </button>
         </div>
     </div>
-    
     <!-- v-show를 사용할 수도 있다 -->
     <div v-if="hasError" style="color: red">
       This is cannot be empty
@@ -49,7 +48,5 @@ export default{
 }
 
 </script>
-
 <style>
-
 </style>
