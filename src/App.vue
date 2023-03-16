@@ -25,9 +25,9 @@
   <div v-for="todo in todos" :key="todo.id" class="card mt-2">
     <div class = "card-body p-2">
       <div class ="form-check">
-        <input class = "form-check-input" type = "checkbox" v-model="todo.completed"> <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
-        <label class = "form-check-label" :style="todoStyle ? todoStyle : {}"> {{ todo.subject }} </label>
-      </div>
+        <input class = "form-check-input" type = "text" v-model="todo.completed"> 
+        <label class = "form-check-label" :style="todoStyle ? todoStyle : {}" :class = "{todo: todo.completed}"> {{ todo.subject }} </label>
+      </div>                        <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
     </div>
   </div>
 </div> 
@@ -63,6 +63,7 @@ export default{
 //함수를 사용하려면 반드시 return을 사용
     return{
       todo,
+      hasError,
       onSubmit,
       todos,
       todoStyle,
@@ -72,7 +73,9 @@ export default{
 </script>
 
 <style>
-.name{
-  color: red;
+.todo{
+  color: gray;
+  text-decoration: line-through;
 }
+
 </style>
