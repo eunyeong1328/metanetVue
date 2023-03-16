@@ -9,6 +9,7 @@
   <div v-if="!filterdTods.length">
     There is nothing to display
   </div>
+  <TodoSimpleForm @add-todo="addTodo"/>
   <!--   자식이 데이터 보내기         부모가 받을 데이터(데이터를 받을 함수)  -->
   <TodoList :todos="filterdTods" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
 </div> 
@@ -16,6 +17,7 @@
 
 <script>
 import { ref, computed } from 'vue';
+import axios from 'axios';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
 export default{
@@ -39,8 +41,12 @@ export default{
     });
 
     const addTodo = (todo) => {
-      todos.value.push(todo);
-      console.log(todo);
+      //데이터를 객체 상태로 DB에 전달
+      axios.post('http://localhost:3000/todos', {
+        subject: todo.subject,
+        completed: todo.completed
+      })//<- 이 객체가 성공하면 
+      todos.value.push(todo);//<-여기에 데이터가 들어감
     }
 
     const toggleTodo = (index) => {
