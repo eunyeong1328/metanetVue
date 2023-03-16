@@ -25,12 +25,12 @@ export default {
         }
     },
     emits: ['toggel-todo','toggel-del'],
-    setup(props, context){
+    setup(props, {emit}){
         const toggleTodo = (index) =>{
-            context.emit('toggel-todo', index);
+            emit('toggel-todo', index);
         }
         const deleteTodo = (index) =>{
-            context.emit('toggel-del',index);
+            emit('toggel-del',index);
         }
         return {
             toggleTodo,
