@@ -8,7 +8,7 @@
                 <label class = "form-check-label" :class = "{todo: todo.completed}"> {{ todo.subject }} </label>
             </div>                        <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
             <div>
-                <button class ="btn btn-danger btn-sm" @click = "deleteTodo(index)">
+                <button class ="btn btn-danger btn-sm" @click = "deleteTodo(index)"> 
                     Delete
                 </button>
             </div>
@@ -30,14 +30,13 @@ export default {
             emit('toggel-todo', index);
         }
         const deleteTodo = (index) =>{
-            emit('toggel-del',index);
+            emit('toggel-del', index);
         }
         return {
             toggleTodo,
             deleteTodo,
         }
     }
-    
 }
 </script>
 

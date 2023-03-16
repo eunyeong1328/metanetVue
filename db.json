@@ -1,59 +1,9 @@
 {
   "todos": [
     {
-      "subject": "ㅁㅁㅁ",
-      "completed": false,
-      "id": 1
-    },
-    {
-      "subject": "ㅁㅁㅁ",
-      "completed": false,
-      "id": 2
-    },
-    {
-      "subject": "안녕",
-      "completed": false,
-      "id": 3
-    },
-    {
-      "subject": "로",
-      "completed": false,
-      "id": 4
-    },
-    {
-      "subject": "data",
-      "completed": false,
-      "id": 5
-    },
-    {
-      "subject": "as",
-      "completed": false,
-      "id": 6
-    },
-    {
-      "subject": "df",
+      "subject": "asdf",
       "completed": false,
       "id": 7
-    },
-    {
-      "subject": "ad",
-      "completed": false,
-      "id": 8
-    },
-    {
-      "subject": "as",
-      "completed": false,
-      "id": 9
-    },
-    {
-      "subject": "as",
-      "completed": false,
-      "id": 10
-    },
-    {
-      "subject": "ㅇㅁ",
-      "completed": false,
-      "id": 11
     }
   ]
 }

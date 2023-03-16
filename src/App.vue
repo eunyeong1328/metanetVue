@@ -61,14 +61,12 @@ export default{
       todos.value[index].completed = !todos.value[index].completed;
     }
 
-    const deleteTodo = (index) => {
-      todos.value.splice(index,1);
-    }
 
     const getTodos = async () => {
       try{
           const res = await axios.get('http://localhost:3000/todos');
           todos.value = res.data;
+          
       }catch(err){
         console.log(err);
         error.value = 'Something went wrong';
@@ -77,7 +75,19 @@ export default{
 
     getTodos();
 
-//함수를 사용하려면 반드시 return을 사용
+    const deleteTodo = async (index) => {
+        error.value = ' ';
+        const id = todos.value[index].id;
+        try{//db에 있는 값을 삭제한다.
+          await axios.delete('http://localhost:3000/todos/' + id);
+          todos.value.splice(index,1);
+        }catch(err){
+          console.log(err);
+          error.value = 'Something went wrong';
+        }
+    }
+
+    //함수를 사용하려면 반드시 return을 사용
     return{
       todos,
       deleteTodo,
