@@ -18,7 +18,10 @@
       This is cannot be empty
     </div>
   </form>
-
+  <div v-if = "!todos.length" style = "color: rebeccapurple">
+    추가된 todo가 없습니다.
+  </div>
+  
   <!-- {{todos}} -->
   <!-- v-for를 사용할 때 반드시 :key 사용 -->
   <div v-for="(todo,index) in todos" :key="todo.id" class="card mt-2">
@@ -46,10 +49,12 @@ export default{
     const todo = ref('');
     const todos = ref([]);
     const hasError = ref(false);
+    const hasTodo = ref(false);
     const onSubmit = () => {
       //입력한 데이터 값
         if(todo.value == ''){
           hasError.value = true;
+          hasTodo.value = true;
         }else{
             todos.value.push({
             id: Date.now(),
@@ -64,6 +69,8 @@ export default{
     const deleteTodo = (index) => {
       todos.value.splice(index,1);
     }
+
+
 //함수를 사용하려면 반드시 return을 사용
     return{
       todo,
