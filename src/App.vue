@@ -5,8 +5,7 @@
   <form class="d-flex"  @submit.prevent="onSubmit">
     <div>
       <div class = "flex-grow-1 mr-2"> 
-        <input class = "form-control" type = "text" v-model="todo.completed" placeholder="Type new to-do">
-        
+        <input class = "form-control" type = "text" v-model="todo" placeholder="Type new to-do">
     </div>
     <div>
       <button class = "btn btn-primary" type="submit" >
@@ -23,11 +22,12 @@
   {{todos}}
   <!-- v-for를 사용할 때 반드시 :key 사용 -->
   <div v-for="todo in todos" :key="todo.id" class="card mt-2">
-    <div class = "card-body p-2">
-      <div class ="form-check">
-        <input class = "form-check-input" type = "text" v-model="todo.completed"> 
-        <label class = "form-check-label" :style="todoStyle ? todoStyle : {}" :class = "{todo: todo.completed}"> {{ todo.subject }} </label>
+    <div class = "card-body p-2 d-flex">
+      <div class ="form-check flext-grow-1">
+        <input class = "form-check-input" type = "checkbox" v-model="todo.completed"> 
+        <label class = "form-check-label" :class = "{todo: todo.completed}"> {{ todo.subject }} </label>
       </div>                        <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
+     
     </div>
   </div>
 </div> 
@@ -42,10 +42,6 @@ export default{
     const todo = ref('');
     const todos = ref([]);
     const hasError = ref(false);
-    const todoStyle = {
-     textdecoration: 'line-through',
-     color: 'gray' 
-    }
     const onSubmit = () => {
       //입력한 데이터 값
         if(todo.value == ''){
@@ -63,10 +59,9 @@ export default{
 //함수를 사용하려면 반드시 return을 사용
     return{
       todo,
+      todos,
       hasError,
       onSubmit,
-      todos,
-      todoStyle,
     }
   }
 }
