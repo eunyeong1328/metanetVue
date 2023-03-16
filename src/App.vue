@@ -1,12 +1,12 @@
 <template>
 <div class ="container">
-  <h2>To-Do</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
-  <input class="form-control" type="text" v-model="searchText" placeholder="Search"/>
+  <h2>To-Do List</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
+  <input class="form-control" type="text" v-model="searchText" placeholder="Search">
 <hr>
 <TodoSimpleForm @add-todo="addTodo"/>
 <div style="color: red">{{ error }}</div>
 
-  <div v-if = "!todos.length" style = "color: rebeccapurple">
+  <div v-if = "!todos.length">
     추가된 todo가 없습니다.
   </div>
   <div v-if="!filterdTods.length">
@@ -18,12 +18,12 @@
   <nav aria-label="Page navigation example">
   <ul class="pagination">
     <li v-if = "currentPage !== 1" class="page-item">
-      <a class="page-link" href="#">Previous</a>
+      <a class="page-link" @click="getTodos(currentPage - 1)">Previous</a>
     </li>
-    <li class="page-item" v-for = "page in numberOfPages" :key = "page" :class="currentPage == page ? 'active':''">
-      <a class="page-link" @click="getTodos(page)">{{page}}</a></li>
-    <li v-if="numberOfTodos !== currentPage" class="page-item"> <!--마지막 페이지가 현재 페이지가 아니라면?Next출력-->
-      <a class="page-link" href="#">Next</a>
+    <li class="page-item" v-for = "page in numberOfPages" :key = "page" :class="currentPage === page ? 'active' : ''">
+      <a class="page-link" @click="getTodos(page)"> {{page}} </a></li>
+    <li v-if="numberOfPages != currentPage" class="page-item"> <!--마지막 페이지가 현재 페이지가 아니라면?Next출력-->
+      <a class="page-link" @click="getTodos(currentPage + 1)">Next</a>
     </li>
   </ul>
 </nav>
@@ -50,6 +50,7 @@ export default{
     const numberOfTodos = ref(0);
     const limit = 5;
     const currentPage = ref(1);
+
     const numberOfPages = computed(()=>{
         return Math.ceil(numberOfTodos.value/limit);
     });
