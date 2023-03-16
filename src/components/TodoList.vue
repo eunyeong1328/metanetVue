@@ -28,8 +28,12 @@ export default {
         const toggleTodo = (index) =>{
             context.emit('toggel-todo', index);
         }
+        const deleteTodo = (index) =>{
+            context.emit('toggel-del',index);
+        }
         return {
             toggleTodo,
+            deleteTodo,
         }
     }
     

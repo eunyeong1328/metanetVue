@@ -7,7 +7,7 @@
     추가된 todo가 없습니다.
   </div>
   <!--   자식이 데이터 보내기         부모가 받을 데이터(데이터를 받을 함수)  -->
-  <TodoList :todos="todos" @toggel-todo = "toggleTodo"/>
+  <TodoList :todos="todos" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
 </div> 
 </template>
 
@@ -24,10 +24,6 @@ export default{
   setup(){
     // ref사용 시 .value값 선언 
     const todos = ref([]);
-
-    const deleteTodo = (index) => {
-      todos.value.splice(index,1);
-    }
     
     const addTodo = (todo) => {
       todos.value.push(todo);
@@ -38,6 +34,10 @@ export default{
       console.log(todos.value[index]);
       todos.value[index].completed = !todos.value[index].completed;
       console.log(todos.value[index]);
+    }
+
+    const deleteTodo = (index) => {
+      todos.value.splice(index,1);
     }
 
 
