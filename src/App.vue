@@ -1,23 +1,8 @@
 <template>
 <div class ="container">
-  <h2>To-Do</h2>
-  <!-- 리로딩되서 기존의 기본이벤트 취소 -->
-  <form class="d-flex"  @submit.prevent="onSubmit">
-    <div>
-      <div class = "flex-grow-1 mr-2"> 
-        <input class = "form-control" type = "text" v-model="todo" placeholder="Type new to-do">
-    </div>
-    <div>
-      <button class = "btn btn-primary" type="submit" >
-        Add
-      </button>
-    </div>
-    </div>
-    <!-- v-show를 사용할 수도 있다 -->
-    <div v-if="hasError" style="color: red">
-      This is cannot be empty
-    </div>
-  </form>
+  <h2>To-Do</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
+  <TodoSimpleForm @add-todo="addTodo"/>
+
   <div v-if = "!todos.length" style = "color: rebeccapurple">
     추가된 todo가 없습니다.
   </div>
@@ -43,41 +28,32 @@
 
 <script>
 import { ref } from 'vue';
+import TodoSimpleForm from './components/TodoSimpleForm.vue';
+
 export default{
+  components : {
+    TodoSimpleForm
+  },
   setup(){
     // ref사용 시 .value값 선언 
-    const todo = ref('');
+   
     const todos = ref([]);
-    const hasError = ref(false);
-    const hasTodo = ref(false);
-    const onSubmit = () => {
-      //입력한 데이터 값
-        if(todo.value == ''){
-          hasError.value = true;
-          hasTodo.value = true;
-        }else{
-            todos.value.push({
-            id: Date.now(),
-            subject: todo.value,
-            completed: false,
-          }); //객체 형태로 생성
-          hasError.value = false;
-          todo.value = '';
-        }  
-    }
 
     const deleteTodo = (index) => {
       todos.value.splice(index,1);
+    }
+    
+    const addTodo = (todo) =>{
+      todos.value.push(todo);
+      console.log(todo);
     }
 
 
 //함수를 사용하려면 반드시 return을 사용
     return{
-      todo,
       todos,
-      hasError,
-      onSubmit,
       deleteTodo,
+      addTodo,
     }
   }
 }
