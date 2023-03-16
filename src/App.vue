@@ -59,7 +59,7 @@ export default{
 
     const getTodos = async () => {
       try{
-          const res = await axios.get('http://localhost:3000/todos');
+          const res = await axios.get(`http://localhost:3000/todos?_page=2&_limit=5`);
           todos.value = res.data;
           
       }catch(err){
