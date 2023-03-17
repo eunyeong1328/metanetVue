@@ -38,7 +38,13 @@ export default {
         }
         const moveToPage = (todoId) => {
             console.log(todoId);
-            router.push('/todos/' + router);
+            //router.push('/todos/' + router);
+            router.push({//경로의 복잡성을 줄일 수 있음
+                name:'Todo',
+                params:{
+                    id:todoId
+                }
+            })
         }
         return {
             moveToPage,
