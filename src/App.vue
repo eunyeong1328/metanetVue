@@ -54,7 +54,9 @@ export default{
     const currentPage = ref(1);
 
     watch(searchText, () => {
-      getTodos(1);
+      setTimeout(()=>{
+        getTodos(1);
+      },2000); //2초후의 이 함수 호출
     });
 
 
@@ -92,7 +94,7 @@ export default{
       currentPage.value = page;
       error.value = '';
       try{
-          const res = await axios.get(`http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`); //원하는 페이지만 글 갯수 출력
+          const res = await axios.get(`http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`); 
           numberOfTodos.value = res.headers['x-total-count'];
          //console.log(res.headers['x-total-count']); //해당 글 갯수를 뽑아 낼 수 있다.
           todos.value = res.data;
