@@ -4,11 +4,25 @@
     Loading...
   </div>
   <form v-else>
-    <div class = "form-group">
-      <label>Todo Subject</label> 
-      <!-- v-model todo를 양방향 바인딩 -->
-      <input v-model = "todo.subject" type = "text" class ="form-control">
+    <div class="row">
+        <div class= "col-6">
+            <div class = "form-group">
+              <label>Todo Subject</label> 
+              <input v-model = "todo.subject" type = "text" class ="form-control">
+            </div>
+        </div>
+        <div class= "col-6">
+          <div class = "form-group">
+              <label>Status </label> 
+              <div>
+                <button class = "btn" :class="todo.completed ? 'btn-success' : 'btn-danger'">  
+                   {{todo.completed ? 'Completed' : 'Incomplete'}}
+                </button>
+              </div>
+            </div>
+        </div>
     </div>
+
     <button class = "btn btn-primary">Save</button>
   </form>
 </template>
@@ -30,7 +44,7 @@ export default {
           const res = await axios.get('http://localhost:3000/todos/' + route.params.id);
           //console.log(res);
           todo.value = res.data;
-          loading.value = false; //db에서 데이터를 가져와야 만 
+          loading.value = false; //db에서 데이터를 가져와야 만 한다.
         };
         getTodo();
         return{
