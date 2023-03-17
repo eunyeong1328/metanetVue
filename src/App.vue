@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed } from 'vue';
 import axios from 'axios';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
@@ -53,9 +53,9 @@ export default{
     const limit = 5;
     const currentPage = ref(1);
 
-    watchEffect(() =>{ //currentPage변경될 때마다 데이터값 출력
-      console.log(currentPage.value);
-    });
+    // watchEffect(() =>{ //currentPage변경될 때마다 데이터값 출력
+    //   console.log(currentPage.value);
+    // });
 
     const numberOfPages = computed(()=>{
         return Math.ceil(numberOfTodos.value/limit);

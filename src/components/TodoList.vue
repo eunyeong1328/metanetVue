@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { watchEffect } from 'vue';
 export default {
     props : {       
         todos:{
@@ -28,6 +29,9 @@ export default {
     emits: ['toggel-todo','toggel-del'],
     //이벤트를 날린다.
     setup(props, {emit}){
+        watchEffect(()=>{
+            console.log(props.todos.length); //변경이 되는 근거
+        })
         const toggleTodo = (index) =>{
             emit('toggel-todo', index);
         }
