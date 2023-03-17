@@ -30,7 +30,8 @@
     <button type = "submit" class = "btn btn-primary ml-2" @click = "moveToListPage">Cancle</button>
     <!-- <button type = "submit" class = "btn btn-primary ml-2"><router-link to="/todos">Cancle</router-link></button> -->
   </form>
-  <Toast v-if="showToast"/>
+  <Toast v-if="showToast" :message="toastMessage"/>
+  <!-- 자식에게 message가 보내짐 -->
 </template>
 
 <script>
@@ -51,10 +52,13 @@ export default {
         const loading = ref(true);
         const todoId = route.params.id;
         const originalTodo = ref(null);
-        const showToast = ref(false);
 
-        const triggerToast = () =>{
+        const showToast = ref(false);
+        const toastMessage = ref('');
+
+        const triggerToast = (message) => { 
           showToast.value = true;
+          toastMessage.value = message;
         }
 
         const onSave = async () => {
@@ -63,7 +67,7 @@ export default {
              completed: todo.value.completed
           });
           originalTodo.value = {...res.data}; //수정후 새값으로 변경(수정 후 비활성화)
-          triggerToast();
+          triggerToast('Successfully save!!');
           console.log(res);
         } //`배키 사용시 변수 넣기 가능 (데이터 여러개 수정)
 
@@ -97,6 +101,7 @@ export default {
           todoUpdated,
           showToast,
           triggerToast,
+          toastMessage,
         };
     }
     
