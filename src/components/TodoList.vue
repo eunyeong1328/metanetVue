@@ -2,13 +2,13 @@
       <!-- {{todos}} -->
   <!-- v-for를 사용할 때 반드시 :key 사용 -->
   <div v-for="(todo,index) in todos" :key="todo.id" class="card mt-2">
-        <div class = "card-body p-2 d-flex align-items-center" >
-            <div @click="moveToPage(todo.id)" class ="form-check flex-grow-1">
+        <div class = "card-body p-2 d-flex align-items-center" @click="moveToPage(todo.id)">
+            <div class ="form-check flex-grow-1">
                 <input class = "form-check-input" type = "checkbox" checked: @change="toggleTodo(index)" > 
                 <label class = "form-check-label" :class = "{todo: todo.completed}" > {{ todo.subject }} </label>
             </div>                        <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
             <div>
-                <button class ="btn btn-danger btn-sm" @click = "deleteTodo(index)"> 
+                <button class ="btn btn-danger btn-sm" @click.stop = "deleteTodo(index)"> 
                     Delete
                 </button>
             </div>
