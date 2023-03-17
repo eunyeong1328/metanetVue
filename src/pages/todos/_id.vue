@@ -24,18 +24,21 @@
         </div>
     </div>
 
-    <button type = "submit" class = "btn btn-primary"  >Save</button>
+    <button type = "submit" class = "btn btn-primary"> Save</button>
+    <button type = "submit" class = "btn btn-primary ml-2" @click = "moveToListPage">Cancle</button>
+    <!-- <button type = "submit" class = "btn btn-primary ml-2"><router-link to="/todos">Cancle</router-link></button> -->
   </form>
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {ref} from '@vue/reactivity'
 
 export default {
     setup(){
         const route = useRoute();
+        const router = useRouter();
         const todo = ref(null);
         const loading = ref(true);
         
@@ -53,10 +56,15 @@ export default {
           todo.value.completed = !todo.value.completed
         }
 
+        const moveToListPage = () =>{
+            router.push({name:'Todos'})
+        }
+
         return{
           todo,
           loading,
           toggleTodoStatus,
+          moveToListPage,
         };
     }
     
