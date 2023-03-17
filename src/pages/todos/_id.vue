@@ -30,7 +30,9 @@
     <button type = "submit" class = "btn btn-primary ml-2" @click = "moveToListPage">Cancle</button>
     <!-- <button type = "submit" class = "btn btn-primary ml-2"><router-link to="/todos">Cancle</router-link></button> -->
   </form>
-  <Toast v-if="showToast" :message="toastMessage"/>
+  <Toast v-if="showToast" 
+  :message="toastMessage" 
+  :type = "toastAlertType"/>
   <!-- 자식에게 message가 보내짐 -->
 </template>
 
@@ -55,13 +57,16 @@ export default {
 
         const showToast = ref(false);
         const toastMessage = ref('');
+        const toastAlertType = ref('');
 
-        const triggerToast = (message) => { 
+        const triggerToast = (message, type = 'success') => { 
           showToast.value = true;
           toastMessage.value = message;
+          toastAlertType.value = type;
           setTimeout(() => {
-            toastMessage.value
+            toastMessage.value = '';
             showToast.value = false;
+            toastAlertType.value = '';//초기화
           },3000);
         }
 
@@ -88,7 +93,7 @@ export default {
             loading.value = false; //db에서 데이터를 가져와야 만 한다.
           }catch(err){
             console.log(err);
-            triggerToast('something went wrong');
+            triggerToast('something went wrong','danger');
           }
         };
         getTodo();
@@ -111,6 +116,7 @@ export default {
           showToast,
           triggerToast,
           toastMessage,
+          toastAlertType,
         };
     }
     

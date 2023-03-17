@@ -12,6 +12,10 @@ export default {
         message: {
             type:String,
             required: true
+        },
+        type: {
+            type:String,
+            default: 'success'
         }
     }
 }
