@@ -1,4 +1,5 @@
 <template>
+  <router-view />
 <div class ="container">
   <h2>To-Do List</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
   <input class="form-control" type="text" v-model="searchText" placeholder="Search" @keyup.enter = "searchTodo">
