@@ -30,6 +30,7 @@
     <button type = "submit" class = "btn btn-primary ml-2" @click = "moveToListPage">Cancle</button>
     <!-- <button type = "submit" class = "btn btn-primary ml-2"><router-link to="/todos">Cancle</router-link></button> -->
   </form>
+  <Toast v-if="showToast"/>
 </template>
 
 <script>
@@ -37,8 +38,12 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import {ref, computed} from '@vue/reactivity'
 import _ from 'loadsh';
+import Toast from '@/components/Toast.vue';
 
 export default {
+    components:{
+      Toast
+    },
     setup(){
         const route = useRoute();
         const router = useRouter();
@@ -46,12 +51,19 @@ export default {
         const loading = ref(true);
         const todoId = route.params.id;
         const originalTodo = ref(null);
+        const showToast = ref(false);
+
+        const triggerToast = () =>{
+          showToast.value = true;
+        }
 
         const onSave = async () => {
           const res = await axios.put(`http://localhost:3000/todos/${todoId}`,{
              subject: todo.value.subject,
              completed: todo.value.completed
           });
+          originalTodo.value = {...res.data}; //수정후 새값으로 변경(수정 후 비활성화)
+          triggerToast();
           console.log(res);
         } //`배키 사용시 변수 넣기 가능 (데이터 여러개 수정)
 
@@ -83,6 +95,8 @@ export default {
           moveToListPage,
           onSave,
           todoUpdated,
+          showToast,
+          triggerToast,
         };
     }
     
