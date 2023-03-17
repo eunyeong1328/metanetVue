@@ -9,13 +9,13 @@
   <div v-if = "!todos.length">
     추가된 todo가 없습니다.
   </div>
-  <div v-if="!filterdTods.length">
+  <div v-if="!todos.length">
     There is nothing to display
   </div>
 
   <!-- App.vue가 자식에게 데이터 보내기         자식이 보낸 데이터를 부모가 받을 데이터(데이터를 받을 함수)  -->
-  <TodoList :todos="filterdTods" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
-
+  <TodoList :todos="todos" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
+<!-- todos : 전체 데이터값 검색 -->
   <!-- 페이징 처리 -->
   <nav aria-label="Page navigation example">
   <ul class="pagination">
@@ -53,24 +53,24 @@ export default{
     const limit = 5;
     const currentPage = ref(1);
 
-    watch(currentPage, (currentPage, prev) =>{ //watch는 이전값을 확인 할 수 있다.
-      console.log(currentPage, prev);
+    watch(searchText, () => {
+      getTodos(1);
     });
 
     const numberOfPages = computed(()=>{
         return Math.ceil(numberOfTodos.value/limit);
     });
 
-    const filterdTods = computed(() => {
-      if(searchText.value){
-        console.log(todos.value.length);
-        return todos.value.filter(todo => {
-          return todo.subject.includes(searchText.value);
-        });
-      }
+    // const filterdTods = computed(() => { //한페이지에서만 검색이 된다.
+    //   if(searchText.value){
+    //     console.log(todos.value.length);
+    //     return todos.value.filter(todo => {
+    //       return todo.subject.includes(searchText.value);
+    //     });
+    //   }
 
-      return todos.value;
-    });
+    //   return todos.value;
+    // });
 
     const addTodo = async (todo) => {
       error.value = '';
@@ -85,12 +85,12 @@ export default{
           error.value = 'Something went wrong';
       }
     }
-
+    //전체 검색
     const getTodos = async (page = currentPage.value) => {
       currentPage.value = page;
       error.value = '';
       try{
-          const res = await axios.get(`http://localhost:3000/todos?_page=${page}&_limit=${limit}`); //원하는 페이지만 글 갯수 출력
+          const res = await axios.get(`http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}`); //원하는 페이지만 글 갯수 출력
           numberOfTodos.value = res.headers['x-total-count'];
          //console.log(res.headers['x-total-count']); //해당 글 갯수를 뽑아 낼 수 있다.
           todos.value = res.data;
@@ -142,7 +142,6 @@ export default{
       addTodo,
       toggleTodo,
       searchText,
-      filterdTods,
       error,
       getTodos,
       numberOfTodos,
