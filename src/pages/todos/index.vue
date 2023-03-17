@@ -131,7 +131,8 @@ export default{
     //   todos.value[index].completed = !todos.value[index].completed;
     // }
 
-    const toggleTodo = async (index) =>{
+    const toggleTodo = async (index,checked) =>{
+      console.log(checked);
        error.value = ' ';
         const id = todos.value[index].id;
         try{//db에 있는 값을 삭제한다.

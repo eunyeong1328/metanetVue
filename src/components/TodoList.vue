@@ -4,7 +4,7 @@
   <div v-for="(todo,index) in todos" :key="todo.id" class="card mt-2">
         <div class = "card-body p-2 d-flex align-items-center" @click="moveToPage(todo.id)">
             <div class ="form-check flex-grow-1">                                              <!--button checkbox 이벤트도 방지-->
-                <input class = "form-check-input" type = "checkbox" checked: @change="toggleTodo(index)" @click.stop > 
+                <input class = "form-check-input" type = "checkbox" checked: @change="toggleTodo(index,$event)" @click.stop > 
                 <label class = "form-check-label" :class = "{todo: todo.completed}" > {{ todo.subject }} </label>
             </div>                        <!-- 스타일 바인딩 : 어떤 변수에 따라 스타일 변경 가능-->
             <div>
@@ -30,8 +30,8 @@ export default {
     //이벤트를 날린다.
     setup(props, {emit}){
         const router = useRouter();
-        const toggleTodo = (index) =>{
-            emit('toggel-todo', index);
+        const toggleTodo = (index, event) =>{
+            emit('toggel-todo', index, event.target.checked);
         }
         const deleteTodo = (index) =>{
             emit('toggel-del', index);
