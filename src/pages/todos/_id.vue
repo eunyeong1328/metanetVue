@@ -15,7 +15,8 @@
           <div class = "form-group">
               <label>Status </label> 
               <div>
-                <button class = "btn" :class="todo.completed ? 'btn-success' : 'btn-danger'">  
+                <button class = "btn" :class="todo.completed ? 'btn-success' : 'btn-danger'" 
+                            type = "button"  @click="toggleTodoStatus"> 
                    {{todo.completed ? 'Completed' : 'Incomplete'}}
                 </button>
               </div>
@@ -23,7 +24,7 @@
         </div>
     </div>
 
-    <button class = "btn btn-primary">Save</button>
+    <button type = "submit" class = "btn btn-primary"  >Save</button>
   </form>
 </template>
 
@@ -47,9 +48,15 @@ export default {
           loading.value = false; //db에서 데이터를 가져와야 만 한다.
         };
         getTodo();
+
+        const toggleTodoStatus = () =>{
+          todo.value.completed = !todo.value.completed
+        }
+
         return{
           todo,
           loading,
+          toggleTodoStatus,
         };
     }
     
