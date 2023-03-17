@@ -2,8 +2,8 @@
   <h1>Todo pages</h1>
   <div v-if = "loading">
     Loading...
-  </div>
-  <form v-else>
+  </div> <!--db에 데이터값이 저장되도록 한다.-->
+  <form v-else @submit.prevent="onSave">
     <div class="row">
         <div class= "col-6">
             <div class = "form-group">
@@ -24,7 +24,9 @@
         </div>
     </div>
 
-    <button type = "submit" class = "btn btn-primary"> Save</button>
+    <button type = "submit" class = "btn btn-primary" :disabled="!todoUpdated">
+       Save
+    </button>
     <button type = "submit" class = "btn btn-primary ml-2" @click = "moveToListPage">Cancle</button>
     <!-- <button type = "submit" class = "btn btn-primary ml-2"><router-link to="/todos">Cancle</router-link></button> -->
   </form>
@@ -33,7 +35,8 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import {ref} from '@vue/reactivity'
+import {ref, computed} from '@vue/reactivity'
+import _ from 'loadsh';
 
 export default {
     setup(){
@@ -41,13 +44,26 @@ export default {
         const router = useRouter();
         const todo = ref(null);
         const loading = ref(true);
-        
-        //console.log(route.params.id);
+        const todoId = route.params.id;
+        const originalTodo = ref(null);
+
+        const onSave = async () => {
+          const res = await axios.put(`http://localhost:3000/todos/${todoId}`,{
+             subject: todo.value.subject,
+             completed: todo.value.completed
+          });
+          console.log(res);
+        } //`배키 사용시 변수 넣기 가능 (데이터 여러개 수정)
+
+        const todoUpdated = computed(()=>{ 
+            return !_.isEqual(todo.value, originalTodo.value);
+        });//서로 같지 않으면 버튼 비활성화
 
         const getTodo = async () =>{ 
-          const res = await axios.get('http://localhost:3000/todos/' + route.params.id);
-          //console.log(res);
-          todo.value = res.data;
+          const res = await axios.get(`http://localhost:3000/todos/${todoId}`);
+          todo.value = {...res.data};//객체 복사
+          originalTodo.value = {...res.data}; // = 새로운 메모리 주소 복사
+          console.log(todo.value);
           loading.value = false; //db에서 데이터를 가져와야 만 한다.
         };
         getTodo();
@@ -57,7 +73,7 @@ export default {
         }
 
         const moveToListPage = () =>{
-            router.push({name:'Todos'})
+            router.push({name:'Todos'});
         }
 
         return{
@@ -65,6 +81,8 @@ export default {
           loading,
           toggleTodoStatus,
           moveToListPage,
+          onSave,
+          todoUpdated,
         };
     }
     
