@@ -57,6 +57,7 @@ export default{
       getTodos(1);
     });
 
+
     const numberOfPages = computed(()=>{
         return Math.ceil(numberOfTodos.value/limit);
     });
@@ -75,11 +76,12 @@ export default{
     const addTodo = async (todo) => {
       error.value = '';
       try{ //await 이 작업을 먼저 실행
-        const res = await axios.post('http://localhost:3000/todos', {
+          await axios.post('http://localhost:3000/todos', {
           subject: todo.subject,
           completed: todo.completed
         });
-        todos.value.push(res.data);
+        //todos.value.push(res.data);
+        getTodos(1);//db에 있는 값 불러오면 된다.
       }catch(err){
           console.log(err);
           error.value = 'Something went wrong';
@@ -90,11 +92,10 @@ export default{
       currentPage.value = page;
       error.value = '';
       try{
-          const res = await axios.get(`http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}`); //원하는 페이지만 글 갯수 출력
+          const res = await axios.get(`http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`); //원하는 페이지만 글 갯수 출력
           numberOfTodos.value = res.headers['x-total-count'];
          //console.log(res.headers['x-total-count']); //해당 글 갯수를 뽑아 낼 수 있다.
           todos.value = res.data;
-          
       }catch(err){
         console.log(err);
         error.value = 'Something went wrong';
@@ -108,7 +109,8 @@ export default{
         const id = todos.value[index].id;
         try{//db에 있는 값을 삭제한다.
           await axios.delete('http://localhost:3000/todos/' + id);
-          todos.value.splice(index,1);
+          //todos.value.splice(index,1);
+          getTodos(1)
         }catch(err){
           console.log(err);
           error.value = 'Something went wrong';
