@@ -59,6 +59,10 @@ export default {
         const triggerToast = (message) => { 
           showToast.value = true;
           toastMessage.value = message;
+          setTimeout(() => {
+            toastMessage.value
+            showToast.value = false;
+          },3000);
         }
 
         const onSave = async () => {
