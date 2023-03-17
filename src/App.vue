@@ -1,7 +1,7 @@
 <template>
 <div class ="container">
   <h2>To-Do List</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
-  <input class="form-control" type="text" v-model="searchText" placeholder="Search">
+  <input class="form-control" type="text" v-model="searchText" placeholder="Search" @keyup.enter = "searchTodo">
 <hr>
 <TodoSimpleForm @add-todo="addTodo"/>
 <div style="color: red">{{ error }}</div>
@@ -60,6 +60,12 @@ export default{
         getTodos(1);
       },2000); //2초후의 이 함수 호출
     });
+
+    const searchTodo = () =>{
+      clearTimeout(timeout); //기존 검색 취소
+      getTodos(1);//즉각 데이터 호출
+    };
+    
 
 
     const numberOfPages = computed(()=>{
@@ -154,6 +160,7 @@ export default{
       limit,
       numberOfPages,
       currentPage,
+      searchTodo,
     }
   }
 }
