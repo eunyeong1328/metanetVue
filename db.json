@@ -57,12 +57,12 @@
     },
     {
       "subject": "as",
-      "completed": false,
+      "completed": true,
       "id": 22
     },
     {
       "subject": "sdf",
-      "completed": true,
+      "completed": false,
       "id": 23
     },
     {
@@ -72,7 +72,7 @@
     },
     {
       "subject": "asas",
-      "completed": false,
+      "completed": true,
       "id": 25
     }
   ]

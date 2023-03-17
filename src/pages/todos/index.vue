@@ -139,7 +139,7 @@ export default{
           await axios.patch('http://localhost:3000/todos/' + id, {
             completed : !todos.value[index].completed
           });
-          todos.value[index].completed = !todos.value[index].completed;
+          todos.value[index].completed = checked;
         }catch(err){
           console.log(err);
           error.value = 'Something went wrong';
