@@ -52,9 +52,11 @@ export default{
     const numberOfTodos = ref(0);
     const limit = 5;
     const currentPage = ref(1);
+    let timeout  = null;
 
     watch(searchText, () => {
-      setTimeout(()=>{
+      clearTimeout(timeout);
+      timeout = setTimeout(()=>{
         getTodos(1);
       },2000); //2초후의 이 함수 호출
     });
