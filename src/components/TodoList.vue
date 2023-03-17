@@ -29,9 +29,7 @@ export default {
     emits: ['toggel-todo','toggel-del'],
     //이벤트를 날린다.
     setup(props, {emit}){
-        watchEffect(()=>{
-            console.log(props.todos.length); //변경이 되는 근거
-        })
+        watchEffect()
         const toggleTodo = (index) =>{
             emit('toggel-todo', index);
         }

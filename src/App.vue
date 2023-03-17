@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import axios from 'axios';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
@@ -53,9 +53,9 @@ export default{
     const limit = 5;
     const currentPage = ref(1);
 
-    // watchEffect(() =>{ //currentPage변경될 때마다 데이터값 출력
-    //   console.log(currentPage.value);
-    // });
+    watch(currentPage, (currentPage, prev) =>{ //watch는 이전값을 확인 할 수 있다.
+      console.log(currentPage, prev);
+    });
 
     const numberOfPages = computed(()=>{
         return Math.ceil(numberOfTodos.value/limit);
@@ -63,6 +63,7 @@ export default{
 
     const filterdTods = computed(() => {
       if(searchText.value){
+        console.log(todos.value.length);
         return todos.value.filter(todo => {
           return todo.subject.includes(searchText.value);
         });
