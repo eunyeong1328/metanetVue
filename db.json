@@ -2,7 +2,7 @@
   "todos": [
     {
       "subject": "asdg",
-      "completed": true,
+      "completed": false,
       "id": 4
     },
     {
@@ -17,7 +17,7 @@
     },
     {
       "subject": "2",
-      "completed": false,
+      "completed": true,
       "id": 8
     },
     {

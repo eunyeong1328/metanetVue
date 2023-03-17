@@ -24,7 +24,9 @@ export default {
             required: true
         }
     },
+    //emits: 자식이 부모에게 데이터를 보낼때
     emits: ['toggel-todo','toggel-del'],
+    //이벤트를 날린다.
     setup(props, {emit}){
         const toggleTodo = (index) =>{
             emit('toggel-todo', index);

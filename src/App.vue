@@ -12,8 +12,10 @@
   <div v-if="!filterdTods.length">
     There is nothing to display
   </div>
-  <!--   자식이 데이터 보내기         부모가 받을 데이터(데이터를 받을 함수)  -->
+
+  <!-- App.vue가 자식에게 데이터 보내기         자식이 보낸 데이터를 부모가 받을 데이터(데이터를 받을 함수)  -->
   <TodoList :todos="filterdTods" @toggel-todo = "toggleTodo" @toggel-del = "deleteTodo"/>
+
   <!-- 페이징 처리 -->
   <nav aria-label="Page navigation example">
   <ul class="pagination">
@@ -32,7 +34,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import axios from 'axios';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
@@ -50,6 +52,10 @@ export default{
     const numberOfTodos = ref(0);
     const limit = 5;
     const currentPage = ref(1);
+
+    watchEffect(() =>{ //currentPage변경될 때마다 데이터값 출력
+      console.log(currentPage.value);
+    });
 
     const numberOfPages = computed(()=>{
         return Math.ceil(numberOfTodos.value/limit);
