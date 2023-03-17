@@ -80,11 +80,16 @@ export default {
         });//서로 같지 않으면 버튼 비활성화
 
         const getTodo = async () =>{ 
-          const res = await axios.get(`http://localhost:3000/todos/${todoId}`);
-          todo.value = {...res.data};//객체 복사
-          originalTodo.value = {...res.data}; // = 새로운 메모리 주소 복사
-          console.log(todo.value);
-          loading.value = false; //db에서 데이터를 가져와야 만 한다.
+          try{
+            const res = await axios.get(`http://localhost:3000/todos/${todoId}`);
+            todo.value = {...res.data};//객체 복사
+            originalTodo.value = {...res.data}; // = 새로운 메모리 주소 복사
+            console.log(todo.value);
+            loading.value = false; //db에서 데이터를 가져와야 만 한다.
+          }catch(err){
+            console.log(err);
+            triggerToast('something went wrong');
+          }
         };
         getTodo();
 

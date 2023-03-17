@@ -1,5 +1,7 @@
 <template>
-  <div class = "alert alert-success toast-box" role= "alert">
+  <div class = "alert alert-success toast-box" 
+    role= "alert"
+    :class = "`alert-${type}`">
     {{message}}
   </div>
 </template>
@@ -7,7 +9,7 @@
 <script>
 export default {
     props:{
-        message:{
+        message: {
             type:String,
             required: true
         }
