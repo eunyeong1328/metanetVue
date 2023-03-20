@@ -41,7 +41,8 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import {ref, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdate, onBeforeUnmounted, onUnmounted } from '@vue/reactivity'
+// import {ref, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdate, onBeforeUnmounted, onUnmounted } from '@vue/reactivity'
+import {ref, computed, onUnmounted } from '@vue/reactivity'
 import _ from 'loadsh';
 import Toast from '@/components/Toast.vue';
 
@@ -50,23 +51,25 @@ export default {
       Toast
     },
     setup(){
-      onBeforeMount(()=>{
-        console.log(document.querySelector('#kosa'));
-      });
-      onMounted(()=>{ //html읽었을때 
-        console.log(document.querySelector('#kosa'));
-      });
-      onBeforeUpdate(()=>{ //데이터값을 변경하기 전
-        console.log('before update');
-      });
-      onUpdate(()=>{//데이터값을 변경하기 전
-        console.log('update');
-      });
-      onBeforeUnmounted(()=>{ //다른 페이지로 이동할 때, 페이지 이동 후 실행
-        console.log('before Unmounted');
-      });
-      onUnmounted(()=>{//다른 페이지로 이동할 때, 페이지 이동 후 실행
+      // onBeforeMount(()=>{
+      //   console.log(document.querySelector('#kosa'));
+      // });
+      // onMounted(()=>{ //html읽었을때 
+      //   console.log(document.querySelector('#kosa'));
+      // });
+      // onBeforeUpdate(()=>{ //데이터값을 변경하기 전
+      //   console.log('before update');
+      // });
+      // onUpdate(()=>{//데이터값을 변경하기 전
+      //   console.log('update');
+      // });
+      // onBeforeUnmounted(()=>{ //다른 페이지로 이동할 때, 페이지 이동 후 실행
+      //   console.log('before Unmounted');
+      // });
+      onUnmounted(() => {//다른 페이지로 이동할 때, 페이지 이동 후 실행
+        //사용하는 이유는 <- 메모리 누수를 예방할 수 있다.
         console.log('Unmounted');
+        clearTimeout(timeout.value); //timeout clear
       });
       
       console.log('hello');
@@ -80,12 +83,14 @@ export default {
         const showToast = ref(false);
         const toastMessage = ref('');
         const toastAlertType = ref('');
+        const timeout = ref(null);//시간저장 변수
 
         const triggerToast = (message, type = 'success') => { 
           showToast.value = true;
           toastMessage.value = message;
           toastAlertType.value = type;
-          setTimeout(() => {
+          timeout.value = setTimeout(() => { 
+            console.log('hello');
             toastMessage.value = '';
             showToast.value = false;
             toastAlertType.value = '';//초기화
