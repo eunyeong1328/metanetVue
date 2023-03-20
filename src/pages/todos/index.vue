@@ -2,14 +2,14 @@
 <div class ="container">
   <div class = "d-flex justify-content-between mb-3"> <!--오른쪽 끝으로 보내기 bootstrap--> 
     <h2>To-Do List</h2><!--@add-todo이름 지정 후 "add-todo"로 호출될 함수-->
-    <button class = "btn btn-primary">
+    <button class = "btn btn-primary" @click="moveToCreatePage">
       Create Todo
     </button>
   </div>
   <hr>
 <TodoSimpleForm @add-todo="addTodo"/>
 <div style="color: red">{{ error }}</div>
-
+A
   <div v-if = "!todos.length">
     추가된 todo가 없습니다.
   </div>
@@ -48,6 +48,9 @@ import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
+import { useRouter } from 'vue-router';
+//useRoute 데이터 받아오는 것
+//useRouter 페이지 이동
 export default{
   components: {
     TodoSimpleForm,
@@ -64,6 +67,7 @@ export default{
     const limit = 5;
     const currentPage = ref(1);  
     const timeout = ref(null);//시간저장 변수
+    const router = useRouter();
 
     const{
         showToast,
@@ -78,6 +82,12 @@ export default{
         getTodos(1);
       },2000); //2초후의 이 함수 호출
     });
+    
+    const moveToCreatePage = () =>{
+      router.push({
+        name: 'TodoCreate'
+      });
+    }
 
     const searchTodo = () =>{
       clearTimeout(timeout); //기존 검색 취소
@@ -185,6 +195,7 @@ export default{
       triggerToast,
       toastMessage,
       toastAlertType,
+      moveToCreatePage,
     }
   }
 }
