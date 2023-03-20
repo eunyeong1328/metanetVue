@@ -10,9 +10,9 @@
                 <input v-model = "todo.subject" type = "text" class ="form-control">
               </div>
           </div>
-          <div class= "col-6">
+          <div v-if = "editing" class= "col-6">
             <div class = "form-group">
-                <label>Status </label> 
+                <label>Status</label> 
                 <div>
                   <button class = "btn" :class="todo.completed ? 'btn-success' : 'btn-danger'" 
                               type = "button"  @click="toggleTodoStatus"> 
