@@ -31,7 +31,10 @@
 </nav>
 <!-- {{ numberOfPages }} -->
 </div> 
-<Toast />
+
+<Toast v-if="showToast" 
+  :message="toastMessage" 
+  :type = "toastAlertType"/>
 </template>
 
 <script>
@@ -40,6 +43,7 @@ import axios from 'axios';
 import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
 export default{
   components: {
     TodoSimpleForm,
@@ -56,22 +60,13 @@ export default{
     const limit = 5;
     const currentPage = ref(1);  
     const timeout = ref(null);//시간저장 변수
-    
-    const showToast = ref(false);
-    const toastMessage = ref('');
-    const toastAlertType = ref('');
 
-    const triggerToast = (message, type = 'success') => { 
-      showToast.value = true;
-      toastMessage.value = message;
-      toastAlertType.value = type;
-      timeout.value = setTimeout(() => { 
-        console.log('hello');
-        toastMessage.value = '';
-        showToast.value = false;
-        toastAlertType.value = '';//초기화
-      },3000);
-    }
+    const{
+        showToast,
+        toastMessage,
+        toastAlertType,
+        triggerToast
+    } = useToast();//사용 시 데이터값 전달
 
     watch(searchText, () => {
       clearTimeout(timeout);
@@ -113,7 +108,7 @@ export default{
         getTodos(1);//db에 있는 값 불러오면 된다.
       }catch(err){
           console.log(err);
-          error.value = 'Something went wrong';
+          triggerToast('something went wrong','danger');
       }
     }
     //전체 검색
@@ -127,7 +122,7 @@ export default{
           todos.value = res.data;
       }catch(err){
         console.log(err);
-        error.value = 'Something went wrong';
+        triggerToast('something went wrong','danger');
       }
     }
 
@@ -142,7 +137,7 @@ export default{
           getTodos(1)
         }catch(err){
           console.log(err);
-          error.value = 'Something went wrong';
+          triggerToast('something went wrong','danger');
         }
     }
 
@@ -161,7 +156,7 @@ export default{
           todos.value[index].completed = checked;
         }catch(err){
           console.log(err);
-          error.value = 'Something went wrong';
+          triggerToast('something went wrong','danger');
         }
     }
     //put :리소스의 모든 것을 업데이트 한다.
@@ -183,9 +178,9 @@ export default{
       searchTodo,
       timeout,
       showToast,
+      triggerToast,
       toastMessage,
       toastAlertType,
-      triggerToast,
     }
   }
 }
