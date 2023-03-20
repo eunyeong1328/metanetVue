@@ -31,6 +31,7 @@
 </nav>
 <!-- {{ numberOfPages }} -->
 </div> 
+<Toast />
 </template>
 
 <script>
@@ -38,10 +39,12 @@ import { ref, computed, watch } from 'vue';
 import axios from 'axios';
 import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
+import Toast from '@/components/Toast.vue';
 export default{
   components: {
     TodoSimpleForm,
-    TodoList
+    TodoList,
+    Toast
   },
 
   setup(){
@@ -51,8 +54,24 @@ export default{
     const error = ref('');
     const numberOfTodos = ref(0);
     const limit = 5;
-    const currentPage = ref(1);
-    let timeout  = null;
+    const currentPage = ref(1);  
+    const timeout = ref(null);//시간저장 변수
+    
+    const showToast = ref(false);
+    const toastMessage = ref('');
+    const toastAlertType = ref('');
+
+    const triggerToast = (message, type = 'success') => { 
+      showToast.value = true;
+      toastMessage.value = message;
+      toastAlertType.value = type;
+      timeout.value = setTimeout(() => { 
+        console.log('hello');
+        toastMessage.value = '';
+        showToast.value = false;
+        toastAlertType.value = '';//초기화
+      },3000);
+    }
 
     watch(searchText, () => {
       clearTimeout(timeout);
@@ -162,6 +181,11 @@ export default{
       numberOfPages,
       currentPage,
       searchTodo,
+      timeout,
+      showToast,
+      toastMessage,
+      toastAlertType,
+      triggerToast,
     }
   }
 }

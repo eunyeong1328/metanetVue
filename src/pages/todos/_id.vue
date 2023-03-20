@@ -42,7 +42,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 // import {ref, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdate, onBeforeUnmounted, onUnmounted } from '@vue/reactivity'
-import {ref, computed, onUnmounted } from '@vue/reactivity'
+import {ref, computed, onUnmounted } from 'vue'
 import _ from 'loadsh';
 import Toast from '@/components/Toast.vue';
 
