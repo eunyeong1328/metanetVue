@@ -7,9 +7,9 @@
     </button>
   </div>
   <hr>
-<TodoSimpleForm @add-todo="addTodo"/>
+
 <div style="color: red">{{ error }}</div>
-A
+
   <div v-if = "!todos.length">
     추가된 todo가 없습니다.
   </div>
@@ -53,7 +53,6 @@ import { useRouter } from 'vue-router';
 //useRouter 페이지 이동
 export default{
   components: {
-    TodoSimpleForm,
     TodoList,
     Toast
   },
