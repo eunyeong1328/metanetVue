@@ -1,5 +1,4 @@
 <template>
-    <h1>Todo pages</h1>
     <div v-if = "loading">
       Loading...
     </div> <!--db에 데이터값이 저장되도록 한다.-->
@@ -35,7 +34,6 @@
     :type = "toastAlertType"/>
     <!-- 자식에게 message가 보내짐 -->
   
-    <div id = "kosa">KOSA</div>
   </template>
   
   <script>
@@ -50,7 +48,13 @@
       components:{
         Toast
       },
-      setup(){
+      props:{
+        editing:{
+          type: Boolean,
+          default: false
+        }
+      },
+      setup(props){
           onUnmounted(() => {
                 console.log('unmounted');
                 //clearTimeout(timeout.value);
@@ -58,8 +62,10 @@
   
           const route = useRoute();
           const router = useRouter();
-          const todo = ref(null);
-          const loading = ref(true);
+          const todo = ref({
+            subject: ''
+          });
+          const loading = ref(false);
           const todoId = route.params.id;
           const originalTodo = ref(null);
   
@@ -85,6 +91,7 @@
           });//서로 같지 않으면 버튼 비활성화
   
           const getTodo = async () =>{ 
+            loading.value = true;
             try{
               const res = await axios.get(`http://localhost:3000/todos/${todoId}`);
               todo.value = {...res.data};//객체 복사
@@ -92,11 +99,15 @@
               console.log(todo.value);
               loading.value = false; //db에서 데이터를 가져와야 만 한다.
             }catch(err){
+              loading.value = false;
               console.log(err);
               triggerToast('something went wrong','danger');
             }
           };
-          getTodo();
+           if(props.editing){
+              getTodo();
+           }
+          //getTodo(); //글 하나를 읽어들이기 위해 사용 (데이터 읽어들이기)
   
           const toggleTodoStatus = () =>{
             todo.value.completed = !todo.value.completed
