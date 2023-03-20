@@ -34,12 +34,14 @@
   :message="toastMessage" 
   :type = "toastAlertType"/>
   <!-- 자식에게 message가 보내짐 -->
+
+  <div id = "kosa">KOSA</div>
 </template>
 
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import {ref, computed} from '@vue/reactivity'
+import {ref, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdate, onBeforeUnmounted, onUnmounted } from '@vue/reactivity'
 import _ from 'loadsh';
 import Toast from '@/components/Toast.vue';
 
@@ -48,6 +50,26 @@ export default {
       Toast
     },
     setup(){
+      onBeforeMount(()=>{
+        console.log(document.querySelector('#kosa'));
+      });
+      onMounted(()=>{ //html읽었을때 
+        console.log(document.querySelector('#kosa'));
+      });
+      onBeforeUpdate(()=>{ //데이터값을 변경하기 전
+        console.log('before update');
+      });
+      onUpdate(()=>{//데이터값을 변경하기 전
+        console.log('update');
+      });
+      onBeforeUnmounted(()=>{ //다른 페이지로 이동할 때, 페이지 이동 후 실행
+        console.log('before Unmounted');
+      });
+      onUnmounted(()=>{//다른 페이지로 이동할 때, 페이지 이동 후 실행
+        console.log('Unmounted');
+      });
+      
+      console.log('hello');
         const route = useRoute();
         const router = useRouter();
         const todo = ref(null);

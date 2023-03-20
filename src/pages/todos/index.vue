@@ -85,7 +85,7 @@ export default{
 
     const addTodo = async (todo) => {
       error.value = '';
-      try{ //await 이 작업을 먼저 실행
+      try{ //await : 이 작업할 동안 기다리기
           await axios.post('http://localhost:3000/todos', {
           subject: todo.subject,
           completed: todo.completed
