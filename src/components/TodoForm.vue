@@ -97,9 +97,12 @@
                   res = await axios.put(`http://localhost:3000/todos/${todoId}`,data);
                 }else{
                   res = await axios.post('http://localhost:3000/todos',data);
+                  todo.value.subject = '';
+                  todo.value.body = '';
                 }
                 originalTodo.value = {...res.data}; //수정후 새값으로 변경(수정 후 비활성화)
-                triggerToast('Successfully save!!');
+                const message = 'Successfully ' + (props.editing ? 'Update' : 'Creaet!');
+                triggerToast(message);//메세지 값을 success로 저장되지 않고 위의 방식으로 사용
               }catch(err){
                 console.log(err);
                 triggerToast('something went wrong','danger');
