@@ -85,14 +85,26 @@
           } = useToast();
   
           const onSave = async () => {
-            const res = await axios.put(`http://localhost:3000/todos/${todoId}`,{
-               subject: todo.value.subject,
-               completed: todo.value.completed
-            });
-            originalTodo.value = {...res.data}; //수정후 새값으로 변경(수정 후 비활성화)
-            triggerToast('Successfully save!!');
-            console.log(res);
-          } //`배키 사용시 변수 넣기 가능 (데이터 여러개 수정)
+              try{
+                let res;
+                const data = {
+                  subject: todo.value.subject,
+                  completed: todo.value.completed,
+                  body: todo.value.body
+                };
+                //data는 같은 코드 중복 
+                if(props.editing){
+                  res = await axios.put(`http://localhost:3000/todos/${todoId}`,data);
+                }else{
+                  res = await axios.post('http://localhost:3000/todos',data);
+                }
+                originalTodo.value = {...res.data}; //수정후 새값으로 변경(수정 후 비활성화)
+                triggerToast('Successfully save!!');
+              }catch(err){
+                console.log(err);
+                triggerToast('something went wrong','danger');
+              }
+          } 
   
           const todoUpdated = computed(()=>{ 
               return !_.isEqual(todo.value, originalTodo.value);
